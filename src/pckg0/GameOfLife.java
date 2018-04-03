@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 
 
 
-public class JavaFXApplication extends Application {
+public class GameOfLife extends Application {
     public static void main(String[] args){
         launch();
     }
