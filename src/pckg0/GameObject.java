@@ -34,32 +34,30 @@ public class GameObject {
 
 
 
-    public void update(){
-
+    public void update(int x, int y){
 
         view.setTranslateX(view.getTranslateX() + directionX*velocity);
         view.setTranslateY(view.getTranslateY() + directionY*velocity);
 
-        if((view.getTranslateX() + directionX*velocity)>620){
+        if((view.getTranslateX() + directionX*velocity)>x){
             view.setTranslateX(-20 + directionX*velocity);
         }
         else if(((view.getTranslateX() + directionX*velocity)<-20)){
-            view.setTranslateX(580 + directionX*velocity);
+            view.setTranslateX(x + directionX*velocity);
         }
 
 
-        if((view.getTranslateY() + directionY*velocity)>620){
+        if((view.getTranslateY() + directionY*velocity)>y){
             view.setTranslateY(-20 + directionY*velocity);
         }
         else if(((view.getTranslateY() + directionY*velocity)<-20)){
-            view.setTranslateY(580 + directionY*velocity);
+            view.setTranslateY(y + directionY*velocity);
         }
     }
 
     public Node getView() {
         return view;
     }
-    public boolean isAlive(){return alive;}
 
     public boolean isDead(){ return !alive;}
 
@@ -82,9 +80,12 @@ public class GameObject {
         if((directionX==0)&&(directionY==1)){
             directionX=1;
             directionY=0;
+        }else if((directionX==0)&&(directionY==0)) {
+            directionX=-1;
+            directionY=0;
         }else{
-            System.out.println(directionX);
-            System.out.println(directionY);
+            directionX=0;
+            directionY=0;
         }
 
 
@@ -105,9 +106,12 @@ public class GameObject {
         if((directionX==0)&&(directionY==-1)){
             directionX=1;
             directionY=0;
+        }else if((directionX==0)&&(directionY==0)) {
+            directionX=1;
+            directionY=0;
         }else{
-            System.out.println(directionX);
-            System.out.println(directionY);
+            directionX=0;
+            directionY=0;
         }
     }
 
@@ -116,7 +120,6 @@ public class GameObject {
     public boolean isColliding(GameObject other){
         return getView().getBoundsInParent().intersects(other.getView().getBoundsInParent());
     }
-
 
 }
 

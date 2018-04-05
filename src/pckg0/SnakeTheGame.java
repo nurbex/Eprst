@@ -16,7 +16,7 @@ import java.util.List;
 
 public class SnakeTheGame extends Application {
 
-    private int screenSizeX=600;
+    private int screenSizeX=1000;
     private int screenSizeY=600;
 
     private int skipTime=10;
@@ -25,7 +25,7 @@ public class SnakeTheGame extends Application {
     private Pane root;
 
     private List<GameObject> foods=new ArrayList<>();
-    private List<GameObject> poisons=new ArrayList<>();
+    //private List<GameObject> poisons=new ArrayList<>();
     private List<GameObject> snake=new ArrayList<>();
 
     private Parent createContent(){
@@ -34,6 +34,8 @@ public class SnakeTheGame extends Application {
         addSnakeTail(new Snake(),300,300);
         addSnakeTail(new Snake(),280,300);
         addSnakeTail(new Snake(),260,300);
+        snake.get(0).setDirectionX(1);
+        snake.get(0).setDirectionY(0);
 
 
 
@@ -48,6 +50,9 @@ public class SnakeTheGame extends Application {
                     skipTimeCounter=-1;
                 }
                 skipTimeCounter++;
+                if(snake.isEmpty()){
+                    stop();
+                }
 
 
             }
@@ -64,10 +69,10 @@ public class SnakeTheGame extends Application {
         foods.add(food);
         addGameobject(food,x,y);
     }
-    private void addPoison(GameObject poison,double x,double y){
+    /*private void addPoison(GameObject poison,double x,double y){
         poisons.add(poison);
         addGameobject(poison,x,y);
-    }
+    }*/
     private void addSnakeTail(GameObject snakeTail,double x,double y){
         snake.add(snakeTail);
         addGameobject(snakeTail,x,y);
@@ -80,46 +85,59 @@ public class SnakeTheGame extends Application {
     }
 
     private void onUpdate(){
-        for(GameObject poison:poisons){
+        /*for(GameObject poison:poisons){
             for(GameObject snakeTail:snake){
                 if(snakeTail.isColliding(poison)){
-                    snakeTail.setAlive(false);
+                    snake.get(snake.size()-1).setAlive(false);
                     poison.setAlive(false);
-                    root.getChildren().removeAll(poison.getView(),snakeTail.getView());
+                    root.getChildren().removeAll(poison.getView(),snake.get(snake.size()-1).getView());
                 }
             }
-        }
-        for(int i=0;i<foods.size();i++){
+        }*/
 
+        for(int i=2;i<snake.size();i++){
+
+            if(snake.get(i).isColliding(snake.get(0))){
+                snake.get(snake.size()-1).setAlive(false);
+                root.getChildren().removeAll(snake.get(snake.size()-1).getView());
+            }
+
+        }
+
+        for(int i=0;i<foods.size();i++){
             if(snake.get(0).isColliding(foods.get(i))){
                 foods.get(i).setAlive(false);
                 root.getChildren().removeAll(foods.get(i).getView());
-                //addSnakeTail(snake.get(snake.size()), snake.get(snake.size()).getView().getTranslateX(),snake.get(snake.size()).getView().getTranslateY());
+                addSnakeTail(new Snake(), snake.get(snake.size()-1).getView().getTranslateX(),snake.get(snake.size()-1).getView().getTranslateY());
             }
         }
-        for(GameObject poison:poisons){
+        /*for(GameObject poison:poisons){
             for(GameObject food:foods){
                 if(food.isColliding(poison)){
                     poison.setAlive(false);
                     root.getChildren().removeAll(poison.getView());
                 }
             }
-        }
+        }*/
 
         foods.removeIf(GameObject::isDead);
-        poisons.removeIf(GameObject::isDead);
+        //poisons.removeIf(GameObject::isDead);
         snake.removeIf(GameObject::isDead);
 
+        locationPassToSnake();
+        for(int i =0;i<snake.size();i++){
+            snake.get(i).update(screenSizeX,screenSizeY);
+        }
 
-        snake.forEach(GameObject::update);
 
-        if(Math.random()<0.01){
+
+        /*if(Math.random()<0.03){
             int x=((int)(Math.random()*root.getPrefWidth())/20)*20;
             int y=((int)(Math.random()*root.getPrefHeight())/20)*20;
             addPoison(new Poison(), x,y);
-        }
+        }*/
 
-        if(Math.random()<0.01){
+        if(Math.random()<0.03){
             int x=((int)(Math.random()*root.getPrefWidth())/20)*20;
             int y=((int)(Math.random()*root.getPrefHeight())/20)*20;
             addFood(new Food(), x,y);
@@ -127,24 +145,30 @@ public class SnakeTheGame extends Application {
 
     }
 
-    private class Poison extends GameObject{
+    /*private class Poison extends GameObject{
         Poison(){
-            super(new Rectangle(20,20, Color.BLUE));
+            super(new Rectangle(1,1,19,19));
         }
 
-    }
+    }*/
     private class Food extends GameObject{
         Food(){
-            super(new Rectangle(20,20, Color.GREENYELLOW));
+            super(new Rectangle(1,1,19,19));
 
         }
 
     }
     private class Snake extends GameObject{
         Snake(){
-            super(new Rectangle(-10,-10,20,20));
+            super(new Rectangle(1,1,19,19));
         }
 
+    }
+    private void locationPassToSnake(){
+        for(int i=snake.size()-1;i>0;i--){
+            snake.get(i).getView().setTranslateX(snake.get(i-1).getView().getTranslateX());
+            snake.get(i).getView().setTranslateY(snake.get(i-1).getView().getTranslateY());
+        }
     }
 
     public void start(Stage stage){
@@ -153,14 +177,10 @@ public class SnakeTheGame extends Application {
             if(e.getCode() == KeyCode.LEFT){
                 snake.get(0).turnLeft();
 
-            }else if(e.getCode() == KeyCode.RIGHT){
+            }
+            if(e.getCode() == KeyCode.RIGHT){
                 snake.get(0).turnRight();
 
-            }else{
-                snake.get(0).setDirectionX(1);
-                snake.get(0).setDirectionY(0);
-                System.out.println(snake.get(0).getDirectionX());
-                System.out.println(snake.get(0).getDirectionY());
             }
         });
         stage.setTitle("Snake The Game!");
