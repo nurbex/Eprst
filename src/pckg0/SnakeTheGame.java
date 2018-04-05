@@ -19,10 +19,6 @@ public class SnakeTheGame extends Application {
     private int screenSizeX=600;
     private int screenSizeY=600;
 
-    private int directionX=1;
-    private int directionY=0;
-
-
     private int skipTime=10;
     private int skipTimeCounter=0;
 
@@ -73,8 +69,6 @@ public class SnakeTheGame extends Application {
         addGameobject(poison,x,y);
     }
     private void addSnakeTail(GameObject snakeTail,double x,double y){
-        snakeTail.setDirectionX(directionX);
-        snakeTail.setDirectionY(directionY);
         snake.add(snakeTail);
         addGameobject(snakeTail,x,y);
     }
@@ -116,17 +110,16 @@ public class SnakeTheGame extends Application {
         poisons.removeIf(GameObject::isDead);
         snake.removeIf(GameObject::isDead);
 
-        snake.get(0).setDirectionX(directionX);
-        snake.get(0).setDirectionY(directionY);
+
         snake.forEach(GameObject::update);
 
-        if(Math.random()<0.08){
+        if(Math.random()<0.01){
             int x=((int)(Math.random()*root.getPrefWidth())/20)*20;
             int y=((int)(Math.random()*root.getPrefHeight())/20)*20;
             addPoison(new Poison(), x,y);
         }
 
-        if(Math.random()<0.08){
+        if(Math.random()<0.01){
             int x=((int)(Math.random()*root.getPrefWidth())/20)*20;
             int y=((int)(Math.random()*root.getPrefHeight())/20)*20;
             addFood(new Food(), x,y);
@@ -158,55 +151,22 @@ public class SnakeTheGame extends Application {
         stage.setScene(new Scene(createContent()));
         stage.getScene().setOnKeyPressed(e ->{
             if(e.getCode() == KeyCode.LEFT){
-                turnLeft(snake.get(0));
+                snake.get(0).turnLeft();
 
-            }
-            if(e.getCode() == KeyCode.RIGHT){
-                turnRight(snake.get(0));
+            }else if(e.getCode() == KeyCode.RIGHT){
+                snake.get(0).turnRight();
 
+            }else{
+                snake.get(0).setDirectionX(1);
+                snake.get(0).setDirectionY(0);
+                System.out.println(snake.get(0).getDirectionX());
+                System.out.println(snake.get(0).getDirectionY());
             }
         });
         stage.setTitle("Snake The Game!");
         stage.show();
     }
-    public void turnRight(GameObject object){
-        if((object.getDirectionX()==1)&&(object.getDirectionY()==0)){
-            object.setDirectionX(0);
-            object.setDirectionY(-1);
-        }
-        if((object.getDirectionX()==0)&&(object.getDirectionY()==-1)){
-            object.setDirectionX(-1);
-            object.setDirectionY(0);
-        }
-        if((object.getDirectionX()==-1)&&(object.getDirectionY()==0)){
-            object.setDirectionX(0);
-            object.setDirectionY(1);
-        }
-        if((object.getDirectionX()==0)&&(object.getDirectionY()==1)){
-            object.setDirectionX(1);
-            object.setDirectionY(0);
-        }
 
-
-    }
-    public void turnLeft(GameObject object){
-        if((object.getDirectionX()==1)&&(object.getDirectionY()==0)){
-            object.setDirectionX(0);
-            object.setDirectionY(1);
-        }
-        if((object.getDirectionX()==0)&&(object.getDirectionY()==1)){
-            object.setDirectionX(-1);
-            object.setDirectionY(0);
-        }
-        if((object.getDirectionX()==-1)&&(object.getDirectionY()==0)){
-            object.setDirectionX(0);
-            object.setDirectionY(-1);
-        }
-        if((object.getDirectionX()==0)&&(object.getDirectionY()==-1)){
-            object.setDirectionX(1);
-            object.setDirectionY(0);
-        }
-    }
 
     public static void main(String[] args){
         launch();

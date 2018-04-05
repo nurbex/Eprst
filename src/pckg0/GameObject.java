@@ -66,6 +66,51 @@ public class GameObject {
     public void setAlive(boolean alive){this.alive=alive;}
 
 
+    public void turnLeft(){
+        if((directionX==1)&&(directionY==0)){
+            directionX=0;
+            directionY=-1;
+        }else
+        if((directionX==0)&&(directionY==-1)){
+            directionX=-1;
+            directionY=0;
+        }else
+        if((directionX==-1)&&(directionY==0)){
+            directionX=0;
+            directionY=1;
+        }else
+        if((directionX==0)&&(directionY==1)){
+            directionX=1;
+            directionY=0;
+        }else{
+            System.out.println(directionX);
+            System.out.println(directionY);
+        }
+
+
+    }
+    public void turnRight(){
+        if((directionX==1)&&(directionY==0)){
+            directionX=0;
+            directionY=1;
+        }else
+        if((directionX==0)&&(directionY==1)){
+            directionX=-1;
+            directionY=0;
+        }else
+        if((directionX==-1)&&(directionY==0)){
+            directionX=0;
+            directionY=-1;
+        }else
+        if((directionX==0)&&(directionY==-1)){
+            directionX=1;
+            directionY=0;
+        }else{
+            System.out.println(directionX);
+            System.out.println(directionY);
+        }
+    }
+
 
 
     public boolean isColliding(GameObject other){
