@@ -26,14 +26,6 @@ public class GameObject {
         directionY=y;
     }
 
-    public int getDirectionX(){
-        return directionX;
-    }
-    public int getDirectionY(){
-        return directionY;
-    }
-
-
 
     public void update(int x, int y){
 
