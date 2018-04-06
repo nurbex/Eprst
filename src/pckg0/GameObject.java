@@ -27,24 +27,24 @@ public class GameObject {
     }
 
 
-    public void update(int x, int y){
+    public void update(int screenX, int screenY){
 
         view.setTranslateX(view.getTranslateX() + directionX*velocity);
         view.setTranslateY(view.getTranslateY() + directionY*velocity);
 
-        if((view.getTranslateX() + directionX*velocity)>x){
+        if((view.getTranslateX() + directionX*velocity)>screenX){
             view.setTranslateX(-20 + directionX*velocity);
         }
         else if(((view.getTranslateX() + directionX*velocity)<-20)){
-            view.setTranslateX(x + directionX*velocity);
+            view.setTranslateX(screenX + directionX*velocity);
         }
 
 
-        if((view.getTranslateY() + directionY*velocity)>y){
+        if((view.getTranslateY() + directionY*velocity)>screenY){
             view.setTranslateY(-20 + directionY*velocity);
         }
         else if(((view.getTranslateY() + directionY*velocity)<-20)){
-            view.setTranslateY(y + directionY*velocity);
+            view.setTranslateY(screenY + directionY*velocity);
         }
     }
 

@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SnakeTheGame extends Application {
+public class SnakeGame extends Application {
 
     private int screenSizeX=1000;
     private int screenSizeY=600;
@@ -41,6 +40,7 @@ public class SnakeTheGame extends Application {
 
         root=new Pane();
         root.setPrefSize(screenSizeX, screenSizeY+uiAreaHeight);
+        root.setStyle("-fx-background-color: white; ");
 
         uiArea=new Pane();
         uiArea.setPrefSize(screenSizeX,uiAreaHeight);
@@ -60,6 +60,8 @@ public class SnakeTheGame extends Application {
         gameArea.setTranslateY(uiAreaHeight);
 
         gameArea.setStyle(" -fx-border-color:lightgray; -fx-background-color: whitesmoke");
+
+        // Adding default snake length.
         addSnakeTail(new Snake(),(screenSizeX/2),(screenSizeY/2));
         addSnakeTail(new Snake(),(screenSizeX/2-20),(screenSizeY/2));
         addSnakeTail(new Snake(),(screenSizeX/2-40),(screenSizeY/2));
@@ -135,13 +137,6 @@ public class SnakeTheGame extends Application {
         foods.removeIf(GameObject::isDead);
         snake.removeIf(GameObject::isDead);
 
-        locationPassToSnake();
-        for(int i =0;i<snake.size();i++){
-            snake.get(i).update(screenSizeX,screenSizeY);
-        }
-
-
-
 
 
         if(Math.random()<0.03){
@@ -149,23 +144,29 @@ public class SnakeTheGame extends Application {
             int y=((int)(Math.random()*gameArea.getPrefHeight())/20)*20;
             addFood(new Food(), x,y);
         }
+        locationPassToSnake();
+        for(int i =0;i<snake.size();i++){
+            snake.get(i).update(screenSizeX,screenSizeY);
+        }
 
     }
 
 
     private class Food extends GameObject{
         Food(){
-            super(new Rectangle(19,19,Color.GREEN));
+            super(new Rectangle(19,19,Color.LIGHTGREEN));
             super.getView().setLayoutX(1);
             super.getView().setLayoutY(1);
+
         }
     }
     private class Snake extends GameObject{
         Snake(){
 
-            super(new Rectangle(19,19,Color.BLUE));
+            super(new Rectangle(19,19,Color.DEEPSKYBLUE));
             super.getView().setLayoutX(1);
             super.getView().setLayoutY(1);
+
         }
 
     }
@@ -193,6 +194,7 @@ public class SnakeTheGame extends Application {
 
         stage.setMaxWidth(screenSizeX);
         stage.setMaxHeight(screenSizeY+uiAreaHeight);
+
 
         stage.setTitle("Snake The Game!");
         stage.show();
