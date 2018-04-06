@@ -2,10 +2,15 @@ package pckg0;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -17,10 +22,10 @@ import java.util.List;
 
 public class SnakeGame extends Application {
 
-    private int screenSizeX=1000;
-    private int screenSizeY=600;
+    private int screenSizeX=600;
+    private int screenSizeY=screenSizeX;
 
-    private int uiAreaHeight=50;
+    private int uiAreaWidth =250;
 
     private String mainLabelText="Enter parameters:";
 
@@ -39,17 +44,59 @@ public class SnakeGame extends Application {
     private Parent createContent(){
 
         root=new Pane();
-        root.setPrefSize(screenSizeX, screenSizeY+uiAreaHeight);
+        root.setPrefSize(screenSizeX+ uiAreaWidth, screenSizeY);
         root.setStyle("-fx-background-color: white; ");
 
         uiArea=new Pane();
-        uiArea.setPrefSize(screenSizeX,uiAreaHeight);
+        uiArea.setPrefSize(uiAreaWidth,screenSizeY);
+        uiArea.setTranslateX(0);
+        uiArea.setStyle("-fx-background-color: white; ");
+        uiArea.getStylesheets().add("pckg0/SnakeGameCSS.css");
 
 
         //A label with the text element
-        Label labelSnake = new Label(mainLabelText);
-        uiArea.getChildren().addAll(labelSnake);
-        uiArea.setStyle("-fx-background-color: white; ");
+        Label labelMain = new Label(mainLabelText);
+        labelMain.setTranslateX(0);
+        labelMain.setTranslateY(0);
+        uiArea.getChildren().addAll(labelMain);
+
+        //A label with the text element
+        Label labelResult = new Label();
+        labelResult.setTranslateX(100);
+        labelResult.setTranslateY(240);
+        uiArea.getChildren().addAll(labelResult);
+
+        //A button with the specified text caption.
+        Button buttonSnake = new Button("  Update  ");
+        buttonSnake.setTranslateX(100);
+        buttonSnake.setTranslateY(200);
+
+        DropShadow shadow = new DropShadow(1,0,1,Color.LIGHTGREY);
+        shadow.setSpread(0.0001);
+
+        //Adding the shadow when the mouse cursor is on
+        buttonSnake.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    @Override public void handle(MouseEvent e) {
+                        buttonSnake.setEffect(shadow);
+                    }
+                });
+        //Removing the shadow when the mouse cursor is off
+        buttonSnake.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    @Override public void handle(MouseEvent e) {
+                        buttonSnake.setEffect(null);
+                    }
+                });
+
+        buttonSnake.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                labelResult.setText("Accepted");
+                labelResult.setStyle("-fx-text-fill:green;");
+                buttonSnake.setStyle("-fx-background-color: #b6e7c9; -fx-text-fill:green;");
+            }
+        });
+        uiArea.getChildren().addAll(buttonSnake);
 
 
 
@@ -57,9 +104,9 @@ public class SnakeGame extends Application {
 
         gameArea=new Pane();
         gameArea.setPrefSize(screenSizeX,screenSizeY);
-        gameArea.setTranslateY(uiAreaHeight);
+        gameArea.setTranslateX(uiAreaWidth+0);
 
-        gameArea.setStyle(" -fx-border-color:lightgray; -fx-background-color: whitesmoke");
+        gameArea.setStyle("-fx-background-color: whitesmoke"); //-fx-border-color:lightgray;
 
         // Adding default snake length.
         addSnakeTail(new Snake(),(screenSizeX/2),(screenSizeY/2));
@@ -137,6 +184,10 @@ public class SnakeGame extends Application {
         foods.removeIf(GameObject::isDead);
         snake.removeIf(GameObject::isDead);
 
+        locationPassToSnake();
+        for(int i =0;i<snake.size();i++){
+            snake.get(i).update(screenSizeX,screenSizeY);
+        }
 
 
         if(Math.random()<0.03){
@@ -144,28 +195,27 @@ public class SnakeGame extends Application {
             int y=((int)(Math.random()*gameArea.getPrefHeight())/20)*20;
             addFood(new Food(), x,y);
         }
-        locationPassToSnake();
-        for(int i =0;i<snake.size();i++){
-            snake.get(i).update(screenSizeX,screenSizeY);
-        }
+
 
     }
 
 
     private class Food extends GameObject{
         Food(){
-            super(new Rectangle(19,19,Color.LIGHTGREEN));
-            super.getView().setLayoutX(1);
-            super.getView().setLayoutY(1);
+            super(new Rectangle(18,18,Color.LIGHTGREEN));
+            super.getView().setLayoutX(2);
+            super.getView().setLayoutY(2);
+            super.getView().setStyle("-fx-stroke: green");
 
         }
     }
     private class Snake extends GameObject{
         Snake(){
 
-            super(new Rectangle(19,19,Color.DEEPSKYBLUE));
-            super.getView().setLayoutX(1);
-            super.getView().setLayoutY(1);
+            super(new Rectangle(18,18,Color.DEEPSKYBLUE));
+            super.getView().setLayoutX(2);
+            super.getView().setLayoutY(2);
+            super.getView().setStyle("-fx-stroke: blue");
 
         }
 
@@ -189,11 +239,9 @@ public class SnakeGame extends Application {
 
             }
         });
-        stage.getScene().getStylesheets().add("pckg0/SnakeGameCSS.css");
 
-
-        stage.setMaxWidth(screenSizeX);
-        stage.setMaxHeight(screenSizeY+uiAreaHeight);
+        stage.setMaxWidth(screenSizeX+ uiAreaWidth);
+        stage.setMaxHeight(screenSizeY);
 
 
         stage.setTitle("Snake The Game!");

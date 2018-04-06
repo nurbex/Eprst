@@ -1,18 +1,15 @@
 /*SnakeGameCSS.css */
 
-.scene{
-    -fx-font: 12px "Cambria Bold";
-    }
-
 .button{
-    -fx-text-fill: #006464;
-    -fx-background-color: #e79423;
-    -fx-border-radius: 20;
-    -fx-background-radius: 20;
+    -fx-text-fill: gray;
+    -fx-background-color: ghostwhite;
+    -fx-border-radius: 2;
+    -fx-border-color: lightgray;
     -fx-padding: 5;
     }
 .label{
     -fx-font: 12px "Cambria Bold";
-    -fx-color: #e79423;
+    -fx-text-fill: gray;
+    -fx-text-alignment:center;
     -fx-padding: 5px;
     }
