@@ -2,7 +2,6 @@
 
 .scene{
     -fx-font: 12px "Cambria Bold";
-    -fx-color: #e79423;
     }
 
 .button{
@@ -15,5 +14,5 @@
 .label{
     -fx-font: 12px "Cambria Bold";
     -fx-color: #e79423;
-    -fx-padding: 1px;
+    -fx-padding: 5px;
     }

@@ -25,7 +25,6 @@ public class SnakeTheGame extends Application {
 
     private String mainLabelText="Enter parameters:";
 
-    private double sceneColor=0.1;
 
     private int skipTime=20;
     private int skipTimeCounter=0;
@@ -42,13 +41,15 @@ public class SnakeTheGame extends Application {
 
         root=new Pane();
         root.setPrefSize(screenSizeX, screenSizeY+uiAreaHeight);
+
         uiArea=new Pane();
         uiArea.setPrefSize(screenSizeX,uiAreaHeight);
+
 
         //A label with the text element
         Label labelSnake = new Label(mainLabelText);
         uiArea.getChildren().addAll(labelSnake);
-        uiArea.setStyle("-fx-background-color: white; -fx-border-color:black");
+        uiArea.setStyle("-fx-background-color: white; ");
 
 
 
@@ -57,7 +58,8 @@ public class SnakeTheGame extends Application {
         gameArea=new Pane();
         gameArea.setPrefSize(screenSizeX,screenSizeY);
         gameArea.setTranslateY(uiAreaHeight);
-        gameArea.setStyle("-fx-border-color:black");
+
+        gameArea.setStyle(" -fx-border-color:lightgray; -fx-background-color: whitesmoke");
         addSnakeTail(new Snake(),(screenSizeX/2),(screenSizeY/2));
         addSnakeTail(new Snake(),(screenSizeX/2-20),(screenSizeY/2));
         addSnakeTail(new Snake(),(screenSizeX/2-40),(screenSizeY/2));
@@ -186,9 +188,11 @@ public class SnakeTheGame extends Application {
 
             }
         });
-        stage.getScene().setFill(Color.gray(sceneColor));
-
         stage.getScene().getStylesheets().add("pckg0/SnakeGameCSS.css");
+
+
+        stage.setMaxWidth(screenSizeX);
+        stage.setMaxHeight(screenSizeY+uiAreaHeight);
 
         stage.setTitle("Snake The Game!");
         stage.show();
