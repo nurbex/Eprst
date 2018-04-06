@@ -14,6 +14,7 @@ public class GameObject {
 
     private boolean alive=true;
     public GameObject(Node view){
+
         this.view=view;
     }
 

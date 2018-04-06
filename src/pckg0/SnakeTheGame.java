@@ -153,14 +153,17 @@ public class SnakeTheGame extends Application {
     }*/
     private class Food extends GameObject{
         Food(){
-            super(new Rectangle(1,1,19,19));
-
+            super(new Rectangle(19,19,Color.GREEN));
+            super.getView().setLayoutX(1);
+            super.getView().setLayoutY(1);
         }
-
     }
     private class Snake extends GameObject{
         Snake(){
-            super(new Rectangle(1,1,19,19));
+
+            super(new Rectangle(19,19,Color.BLUE));
+            super.getView().setLayoutX(1);
+            super.getView().setLayoutY(1);
         }
 
     }
