@@ -25,7 +25,6 @@ public class SnakeTheGame extends Application {
     private Pane root;
 
     private List<GameObject> foods=new ArrayList<>();
-    //private List<GameObject> poisons=new ArrayList<>();
     private List<GameObject> snake=new ArrayList<>();
 
     private Parent createContent(){
@@ -69,10 +68,7 @@ public class SnakeTheGame extends Application {
         foods.add(food);
         addGameobject(food,x,y);
     }
-    /*private void addPoison(GameObject poison,double x,double y){
-        poisons.add(poison);
-        addGameobject(poison,x,y);
-    }*/
+
     private void addSnakeTail(GameObject snakeTail,double x,double y){
         snake.add(snakeTail);
         addGameobject(snakeTail,x,y);
@@ -85,15 +81,7 @@ public class SnakeTheGame extends Application {
     }
 
     private void onUpdate(){
-        /*for(GameObject poison:poisons){
-            for(GameObject snakeTail:snake){
-                if(snakeTail.isColliding(poison)){
-                    snake.get(snake.size()-1).setAlive(false);
-                    poison.setAlive(false);
-                    root.getChildren().removeAll(poison.getView(),snake.get(snake.size()-1).getView());
-                }
-            }
-        }*/
+
 
         for(int i=2;i<snake.size();i++){
 
@@ -111,17 +99,9 @@ public class SnakeTheGame extends Application {
                 addSnakeTail(new Snake(), snake.get(snake.size()-1).getView().getTranslateX(),snake.get(snake.size()-1).getView().getTranslateY());
             }
         }
-        /*for(GameObject poison:poisons){
-            for(GameObject food:foods){
-                if(food.isColliding(poison)){
-                    poison.setAlive(false);
-                    root.getChildren().removeAll(poison.getView());
-                }
-            }
-        }*/
+
 
         foods.removeIf(GameObject::isDead);
-        //poisons.removeIf(GameObject::isDead);
         snake.removeIf(GameObject::isDead);
 
         locationPassToSnake();
@@ -131,11 +111,7 @@ public class SnakeTheGame extends Application {
 
 
 
-        /*if(Math.random()<0.03){
-            int x=((int)(Math.random()*root.getPrefWidth())/20)*20;
-            int y=((int)(Math.random()*root.getPrefHeight())/20)*20;
-            addPoison(new Poison(), x,y);
-        }*/
+
 
         if(Math.random()<0.03){
             int x=((int)(Math.random()*root.getPrefWidth())/20)*20;
@@ -145,12 +121,7 @@ public class SnakeTheGame extends Application {
 
     }
 
-    /*private class Poison extends GameObject{
-        Poison(){
-            super(new Rectangle(1,1,19,19));
-        }
 
-    }*/
     private class Food extends GameObject{
         Food(){
             super(new Rectangle(19,19,Color.GREEN));
