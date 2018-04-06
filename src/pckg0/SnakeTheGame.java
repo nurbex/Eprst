@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -16,10 +17,12 @@ import java.util.List;
 
 public class SnakeTheGame extends Application {
 
-    private int screenSizeX=1000;
+    private int screenSizeX=600;
     private int screenSizeY=600;
 
-    private int skipTime=10;
+    private double sceneColor=0.5;
+
+    private int skipTime=20;
     private int skipTimeCounter=0;
 
     private Pane root;
@@ -30,9 +33,9 @@ public class SnakeTheGame extends Application {
     private Parent createContent(){
         root=new Pane();
         root.setPrefSize(screenSizeX,screenSizeY);
-        addSnakeTail(new Snake(),300,300);
-        addSnakeTail(new Snake(),280,300);
-        addSnakeTail(new Snake(),260,300);
+        addSnakeTail(new Snake(),(screenSizeX/2),(screenSizeY/2));
+        addSnakeTail(new Snake(),(screenSizeX/2-20),(screenSizeY/2));
+        addSnakeTail(new Snake(),(screenSizeX/2-40),(screenSizeY/2));
         snake.get(0).setDirectionX(1);
         snake.get(0).setDirectionY(0);
 
@@ -57,6 +60,11 @@ public class SnakeTheGame extends Application {
             }
         };
         timer.start();
+
+
+        //A label with the text element
+        Label labelSnake = new Label("Snake");
+        root.getChildren().addAll(labelSnake);
 
         return root;
 
@@ -157,6 +165,10 @@ public class SnakeTheGame extends Application {
 
             }
         });
+        stage.getScene().setFill(Color.gray(sceneColor));
+
+        stage.getScene().getStylesheets().add("pckg0/SnakeGameCSS.css");
+
         stage.setTitle("Snake The Game!");
         stage.show();
     }
