@@ -1,7 +1,7 @@
 /*SnakeGameCSS.css */
 
 .scene{
-    -fx-font: 40pt "Cambria Bold";
+    -fx-font: 12px "Cambria Bold";
     -fx-color: #e79423;
     }
 
@@ -13,6 +13,7 @@
     -fx-padding: 5;
     }
 .label{
-            -fx-font: 40pt "Cambria Bold";
-            -fx-color: #e79423;
-      }
+    -fx-font: 12px "Cambria Bold";
+    -fx-color: #e79423;
+    -fx-padding: 1px;
+    }
