@@ -2,12 +2,13 @@ package pckg0;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -25,16 +26,16 @@ public class SnakeGame extends Application {
     private int screenSizeX=600;
     private int screenSizeY=screenSizeX;
 
-    private int uiAreaWidth =250;
+    private int uiAreaWidth =0;//250
 
-    private String mainLabelText="Enter parameters:";
+    //private String mainLabelText="Enter parameters:";
 
 
     private int skipTime=20;
     private int skipTimeCounter=0;
 
     private Pane root;
-    private Pane uiArea;
+    //private Pane uiArea;
     private Pane gameArea;
 
 
@@ -47,7 +48,7 @@ public class SnakeGame extends Application {
         root.setPrefSize(screenSizeX+ uiAreaWidth, screenSizeY);
         root.setStyle("-fx-background-color: white; ");
 
-        uiArea=new Pane();
+        /*uiArea=new Pane();
         uiArea.setPrefSize(uiAreaWidth,screenSizeY);
         uiArea.setTranslateX(0);
         uiArea.setStyle("-fx-background-color: white; ");
@@ -59,6 +60,30 @@ public class SnakeGame extends Application {
         labelMain.setTranslateX(0);
         labelMain.setTranslateY(0);
         uiArea.getChildren().addAll(labelMain);
+
+
+        //radio button groupRadio
+
+        final ToggleGroup groupRadio=new ToggleGroup();
+
+        RadioButton rb1 = new RadioButton("300x300");
+        rb1.setSelected(true);
+        rb1.setTranslateX(10);
+        rb1.setTranslateY(30);
+
+        RadioButton rb2 = new RadioButton("600x600");
+        rb2.setTranslateX(10);
+        rb2.setTranslateY(50);
+
+        groupRadio.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+            public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
+                if (groupRadio.getSelectedToggle() != null) {
+                    System.out.println(groupRadio.getSelectedToggle().getUserData().toString()+"toggle");
+                }
+            }
+        });
+
+        uiArea.getChildren().addAll(rb1,rb2);
 
         //A label with the text element
         Label labelResult = new Label();
@@ -85,7 +110,10 @@ public class SnakeGame extends Application {
         buttonSnake.addEventHandler(MouseEvent.MOUSE_EXITED,
                 new EventHandler<MouseEvent>() {
                     @Override public void handle(MouseEvent e) {
+
                         buttonSnake.setEffect(null);
+                        labelResult.setText("");
+                        buttonSnake.setStyle("-fx-background-color: ghostwhite; -fx-text-fill:gray;");
                     }
                 });
 
@@ -96,7 +124,7 @@ public class SnakeGame extends Application {
                 buttonSnake.setStyle("-fx-background-color: #b6e7c9; -fx-text-fill:green;");
             }
         });
-        uiArea.getChildren().addAll(buttonSnake);
+        uiArea.getChildren().addAll(buttonSnake);*/
 
 
 
@@ -137,7 +165,7 @@ public class SnakeGame extends Application {
         };
         timer.start();
 
-        root.getChildren().addAll(uiArea,gameArea);
+        root.getChildren().addAll(gameArea); //uiArea,
         return root;
 
     }
@@ -173,10 +201,12 @@ public class SnakeGame extends Application {
         }
 
         for(int i=0;i<foods.size();i++){
-            if(snake.get(0).isColliding(foods.get(i))){
-                foods.get(i).setAlive(false);
-                gameArea.getChildren().removeAll(foods.get(i).getView());
-                addSnakeTail(new Snake(), snake.get(snake.size()-1).getView().getTranslateX(),snake.get(snake.size()-1).getView().getTranslateY());
+            for(int k=0; k<snake.size();k++) {
+                if (snake.get(k).isColliding(foods.get(i))) {
+                    foods.get(i).setAlive(false);
+                    gameArea.getChildren().removeAll(foods.get(i).getView());
+                    addSnakeTail(new Snake(), snake.get(snake.size() - 1).getView().getTranslateX(), snake.get(snake.size() - 1).getView().getTranslateY());
+                }
             }
         }
 
@@ -242,7 +272,6 @@ public class SnakeGame extends Application {
 
         stage.setMaxWidth(screenSizeX+ uiAreaWidth);
         stage.setMaxHeight(screenSizeY);
-
 
         stage.setTitle("Snake The Game!");
         stage.show();
