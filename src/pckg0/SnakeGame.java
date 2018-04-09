@@ -217,14 +217,16 @@ public class SnakeGame extends Application {
         locationPassToSnake();
         for(int i =0;i<snake.size();i++){
             snake.get(i).update(screenSizeX,screenSizeY);
+
         }
 
 
-        if(Math.random()<0.03){
+        if(foods.isEmpty()){
             int x=((int)(Math.random()*gameArea.getPrefWidth())/20)*20;
             int y=((int)(Math.random()*gameArea.getPrefHeight())/20)*20;
             addFood(new Food(), x,y);
         }
+
 
 
     }
